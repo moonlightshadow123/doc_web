@@ -267,7 +267,7 @@ function request_files(){
 }
 
 function request_bib(){
-  var url = encodeURI(base_url + bib_filename);
+  var url = base_url + bib_filename;
   return $.ajax({url:url, 
             success: function(data){
                       if(data != ""){
