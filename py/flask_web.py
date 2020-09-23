@@ -12,9 +12,12 @@ app = Flask(__name__, static_url_path='', static_folder="../site", template_fold
 @app.route("/index")
 def index():
 	projId = request.args.get("projId")
-	jsonData = orm.getProjJson(projId)
 	projs = orm.getProjs()
-	return render_template('/index/index.html', jsonData=jsonData, projs=projs, projId=projId) #JSON.parse('{{ user | tojson | safe}}');
+	if not projId:
+	 	return render_template('/index/index.html', jsonData={}, projs=projs, projId="") #JSON.parse('{{ user | tojson | safe}}');
+	else:
+		jsonData = orm.getProjJson(projId)
+		return render_template('/index/index.html', jsonData=jsonData, projs=projs, projId=projId) #JSON.parse('{{ user | tojson | safe}}');
 
 @app.route("/file")
 def file():
