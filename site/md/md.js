@@ -3,7 +3,7 @@
 
 var name = theData["name"];
 var doc_str = theData["content"];
-var base_url  = theData["baseUrl"];
+var base_url  = encodeURI(theData["baseUrl"]);
 var bib_filename = "tex.bib";
 var bib_str = "";
 var $content = $("#content");
@@ -267,7 +267,7 @@ function request_files(){
 }
 
 function request_bib(){
-  var url = base_url + bib_filename;
+  var url = encodeURI(base_url + bib_filename);
   return $.ajax({url:url, 
             success: function(data){
                       if(data != ""){
