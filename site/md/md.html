@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Markdown</title>
+  <meta charset="utf-8"/>
+  <link rel="icon" href="../logo.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
+  <link rel="stylesheet" type="text/css" href="/md/md.css">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/moment/moment@2.22.2/min/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.5.0/mermaidAPI.js"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/kuroshiro@1.1.2/dist/kuroshiro.js"></script>
+  <script src="hurigana/kuroshiro-analyzer-kuromoji.min.js"></script>
+  <script src="../utils/utils.js"></script>-->
+
+  <script src="https://kit.fontawesome.com/dea24a676b.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.css" integrity="sha512-/BlxZbYLtYGExexketXsTi47eHp+r2kTeq2OHecQPZlfbc7WFXVrwbVW9HOYjI6c9Ti+P60ASmVLxittZ0EBGw==" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.js" integrity="sha512-K8GMktcEqOI28I3f5C6kraFm1F4wVLvnBxGU+imS/zOLT1COAT799Ln4DJyAbpdyNt6LgMIWcwy4ptCYXCIDqA==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/clike/clike.min.js" integrity="sha512-HT3t3u7HfQ7USbSZa0Tk5caEnUfO8s58OWqMBwm96xaZAbA17rpnXXHDefR8ixVmSSVssbOv3W3OMh6mNX/XuQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/markdown/markdown.min.js" integrity="sha512-i0WWgBhBBkoMBlFQAsWUqSGwbGx6ZRKHJqGvuLdAl1qu1SDSyxJmwPAiVSPkzGqz1TM64yiH7b8sCUjNeoW8Kw==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/theme/monokai.min.css" integrity="sha512-R6PH4vSzF2Yxjdvb2p2FA06yWul+U0PDDav4b/od/oXf9Iw37zl10plvwOXelrjV2Ai7Eo3vyHeyFUjhXdBCVQ==" crossorigin="anonymous" />
+
+  <link rel="stylesheet" type="text/css" href="/common/modal.css">
+  <style type="text/css">
+    input, button, input[type="submit"], input[type="reset"] {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      outline: inherit;
+      padding: 3px;
+    }
+  </style>
+</head>
+<body style="margin: 0px 5vw;">
+  
+  <div id="editModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 75vw;">
+    <div class="header" style="text-align: center;"><span style="font-weight: 700">Edit Content.</span> <span  class="closeModal close">&times;</span> </div>
+    <div id="modalmsg" style="height: 75vh; margin-bottom: 10px">
+        <textarea id="codemirror"></textarea>
+    </div>
+    <div class="footer">
+      <button class="closeModal" id="confirmBtn">Confirm</button>
+      <button class="closeModal" id="cancelBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+<div id="msgContainer">
+  <div class="msgbox" style="display:none;box-shadow: 0 2px 8px -2px gray;margin-bottom: 10px;transition: max-height 0.5s;">
+      <span class="closebtn closeMsg" >&times;</span>
+      <span>Msg:</span> <strong class="msg">Danger!</strong>
+  </div>
+</div>
+  <span id="editBtn" style="font-size:30px;cursor:pointer;top: 20px; right: 20px; position:fixed;color: gray;font-weight: 700;"><i class="far fa-circle"></i></span>
+  <div id="content"></div>
+  <div id="bibsect" style="padding-top: 100px">
+    <H2>References</H2>
+  <div id="bibtex_display"></div>
+  </div>
+  <!--<bibtex src="test.bib"></bibtex>-->
+  <script type="text/javascript">var theData = JSON.parse({{ data | tojson | safe}});</script>
+  <script type="text/javascript" src="/md/bibtex/bibtex_js.js"></script>
+  <script src="/md/md.js"></script>
+  <script type="text/javascript" src="/common/modal.js"></script>
+  <script type="text/javascript" src="/md/md_modal.js"></script>
+</body>
+</html>
+
+<!-- 
+file:///F:/ftp%20-%20%E5%89%AF%E6%9C%AC/site/md/md.html?file=file:///F:/ftp%20-%20%E5%89%AF%E6%9C%AC/files/test/md/md_test_2.test.md&bib=file:///F:/ftp%20-%20%E5%89%AF%E6%9C%AC/data/bib/test.bib
+-->

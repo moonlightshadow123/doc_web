@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MyStruct</title>
+    <link rel="icon" href="../logo.png">
+    <link rel="apple-touch-icon" href="../logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/index/index.css">
+    <!--<script src="../utils/utils.js"></script>-->
+   
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+  <!-- load the d3.js library --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-contextmenu@2.9.2/dist/jquery.contextMenu.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.2/jquery.contextMenu.css">
+  
+  <script src="https://kit.fontawesome.com/dea24a676b.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="/common/modal.css">
+  </head>
+  <style type="text/css">
+    body{
+      margin: 0px;
+      padding: 0px;
+    }
+    input, button, input[type="submit"], input[type="reset"] {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      outline: inherit;
+      padding: 3px;
+    }
+    #content{
+      transition: width 1s;
+    }
+  </style>
+
+  <body>
+<div id="dialogModal" class="modal">
+  <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close closeModal" style="">&times;</span>
+        <div class="header" style="text-align: center;"><span style="">Dialog</span> </div>
+        <div class="msg" style="font-weight: 700;text-align: center;padding: 20px;"></div>
+        <div class="footer">
+         <button class="closeModal" id="dialogConfirm">Confirm</button>
+         <button class="closeModal cancel dialogCancel">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div id="updateModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="header" style="text-align: center;"><span style="font-weight: 700">Change Type</span><span class="closeModal close">&times;</span> </div>
+    <form id="updateForm">
+    <input type="hidden" name="nodeId">
+    <input type="hidden" name="projId">
+    <div class="form_grid" >
+        <span>File Type: </span>
+        <select name="type" id="typeSelect">
+          <option value="node">Node</option>
+          <option value="md">Markdown</option>
+          <option value="deck">Html Slides</option>
+          <option value="extra">Extra</option>
+        </select>
+    </div>
+     <div class="form_grid" >
+        <span>Extra: </span>
+        <select name="extra" class="extraList diable" disabled="disabled">
+        </select>
+      </div>
+    </form>
+    <div class="footer">
+      <button class="closeModal" id="updateConf">Confirm</button>
+      <button class="closeModal cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="extraModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="header" style="text-align: center;"><span style="font-weight: 700">Edit Extra</span> <span  class="closeModal close">&times;</span> </div>
+    <form id="extraForm" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="projId">
+     <div class="form_grid" >
+        <span>To Add: </span>
+        <input type="file" name="addFile">
+      </div>
+      <div class="form_grid" >
+        <span>To Delete: </span>
+        <select name="rmFile" class="extraList">
+        </select>
+      </div>
+    </form>
+    <div class="footer">
+      <button class="closeModal" id="extraConf">Confirm</button>
+      <button class="closeModal cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="loginModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="header" style="text-align: center;"><span style="font-weight: 700">New Project</span> <span  class="closeModal close">&times;</span> </div>
+    <form id="loginForm">
+    <div class="form_grid">
+        <span>Username: </span>
+        <input type="text" name="username">
+    </div>
+    <div class="form_grid">
+        <span>Password: </span>
+        <input type="password" name="password">
+    </div>
+    </form>
+    <div class="footer">
+      <button class="closeModal" id="loginConf">Confirm</button>
+      <button class="closeModal cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn closeNav">&times;</a>
+  <hr style="border: 2px solid gray; padding: 0px; margin: 3px 0px;">
+  <div id="navItems">
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+  </div>
+  <hr style="border: 2px solid gray; padding: 0px; margin: 3px 0px;">
+  <input type="text" id="newProjInput" placeholder="New Proj Name" style="background-color: #666666; margin:8px 8px 8px 32px;">
+  <a id="newProjBtn" href="#"><i class="fas fa-plus"></i>&nbsp;&nbsp;New Proj</a>
+  <a id="deleteProjBtn" href="#"><i class="far fa-trash-alt"></i>&nbsp;&nbsp;Delete</a>
+   <hr style="border: 2px solid gray; padding: 0px; margin: 3px 0px;">
+  <a id="extraBtn" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Edit Extra</a>
+</div>
+
+<div id="content">
+  <div id="msgContainer" >
+  <div class="msgbox" style="display:none;box-shadow: 0 2px 8px -2px gray;margin-bottom: 10px;transition: max-height 0.5s;">
+      <span class="closebtn closeMsg" >&times;</span>
+      <span>Msg:</span> <strong class="msg">Danger!</strong>
+  </div>
+  </div>
+  <span id="navBtn" class="openNav" style="font-size:30px;cursor:pointer;float:right;position: relative; margin: 15px;" >&#9776; </span>
+  <div class="div" id="tree">
+  </div>
+</div>
+  <script type="text/javascript">
+    //var jsonData = {{jsonData}};
+    var jsonData = JSON.parse('{{ jsonData | tojson | safe}}');
+    var projs = JSON.parse('{{ projs | tojson | safe}}');
+    const projId = '{{projId}}';
+  </script>
+  <script type="text/javascript" src="/index/index.js"></script>
+  <script type="text/javascript" src="/common/modal.js"></script>
+  <script type="text/javascript" src="/index/index_modal.js"></script>
+  <script type="text/javascript" src="/index/conmenu.js"></script>
+
+  <script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+  </body>
+</html>
+<!--
+file:///F:/ftp%20-%20%E5%89%AF%E6%9C%AC/site/index/index.html?json=../../data/json/Test%20Proj.json
+-->

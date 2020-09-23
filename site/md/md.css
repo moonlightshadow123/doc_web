@@ -1,0 +1,14 @@
+.center{
+    text-align: center;
+}
+.img{
+  text-align: center;
+}
+th{
+	padding: 2px;
+	border: 1px solid #ccc;
+}
+td{
+	padding: 2px;
+	border: 1px solid #ccc;
+}

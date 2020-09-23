@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+.container{
+    display: flex;
+}
+.col{
+    flex: 1;
+    float: left;
+}
+</style>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <title>Deck</title>
+  <link rel="icon" href="../logo.png">
+
+  <!-- Required stylesheet -->
+  <link rel="stylesheet" media="screen" href="/deck/core/deck.core.css">
+
+  <!-- Extension CSS files go here. Remove or add as needed. -->
+  <link rel="stylesheet" media="screen" href="/deck/extensions/goto/deck.goto.css">
+  <link rel="stylesheet" media="screen" href="/deck/extensions/menu/deck.menu.css">
+  <link rel="stylesheet" media="screen" href="/deck/extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" media="screen" href="/deck/extensions/status/deck.status.css">
+  <link rel="stylesheet" media="screen" href="/deck/extensions/scale/deck.scale.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="/deck/themes/style/web-2.0.css">
+
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="/deck/themes/transition/horizontal-slide.css">
+
+  <!-- Basic black and white print styles -->
+  <link rel="stylesheet" media="print" href="/deck/core/print.css">
+
+  <!-- Required Modernizr file -->
+  <script src="/deck/modernizr.custom.js"></script>
+  <!--<script src="../utils/utils.js"></script>-->
+
+    <script src="https://kit.fontawesome.com/dea24a676b.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.css" integrity="sha512-/BlxZbYLtYGExexketXsTi47eHp+r2kTeq2OHecQPZlfbc7WFXVrwbVW9HOYjI6c9Ti+P60ASmVLxittZ0EBGw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.js" integrity="sha512-K8GMktcEqOI28I3f5C6kraFm1F4wVLvnBxGU+imS/zOLT1COAT799Ln4DJyAbpdyNt6LgMIWcwy4ptCYXCIDqA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/clike/clike.min.js" integrity="sha512-HT3t3u7HfQ7USbSZa0Tk5caEnUfO8s58OWqMBwm96xaZAbA17rpnXXHDefR8ixVmSSVssbOv3W3OMh6mNX/XuQ==" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/mode/xml/xml.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/codemirror@5.57.0/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/theme/monokai.min.css" integrity="sha512-R6PH4vSzF2Yxjdvb2p2FA06yWul+U0PDDav4b/od/oXf9Iw37zl10plvwOXelrjV2Ai7Eo3vyHeyFUjhXdBCVQ==" crossorigin="anonymous" />
+     <link rel="stylesheet" type="text/css" href="/common/modal.css">
+    <style type="text/css">
+    .modal input, button, input[type="submit"], input[type="reset"] {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      outline: inherit;
+      padding: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div id="editModal" class="modal" style="z-index: 5">
+  <!-- Modal content -->
+  <div class="modal-content" style="width: 75vw;">
+    <div class="header" style="text-align: center;"><span style="font-weight: 700">Edit Content.</span> <span  class="closeModal close">&times;</span> </div>
+    <div id="modalmsg" style="height: 75vh; margin-bottom: 10px">
+        <textarea id="codemirror"></textarea>
+    </div>
+    <div class="footer">
+      <button class="closeModal" id="confirmBtn">Confirm</button>
+      <button class="closeModal" id="cancelBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+<span id="editBtn" style="font-size:30px;cursor:pointer;top: 20px; right: 20px; position:fixed;color: gray;font-weight: 700;z-index: 4;"><i class="far fa-circle"></i></span>
+<div id="msgContainer" style="z-index: 4;position: absolute;top: 0px;left: 0px;width: 100%;padding: 5px;">
+  <div class="msgbox" style="display:none;box-shadow: 0 2px 8px -2px gray;margin-bottom: 10px;transition: max-height 0.5s;">
+      <span class="closebtn closeMsg" >&times;</span>
+      <span>Msg:</span> <strong class="msg">Danger!</strong>
+  </div>
+</div>
+
+<div id="container"></div>
+
+   <div class="deck-container" id="deckContainer">
+    <!-- Begin slides -->
+    <div id="deckContent"> 
+      <!--################################# CONTENT HERE !###################################-->
+    </div>
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+  </div>
+<!-- Required JS files. -->
+<script src="/deck/jquery.min.js"></script>
+<script src="/deck/core/deck.core.js"></script>
+
+
+ <script type="text/javascript">var theData = JSON.parse({{ data | tojson | safe}});</script>
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="/deck/extensions/menu/deck.menu.js"></script>
+<script src="/deck/extensions/goto/deck.goto.js"></script>
+<script src="/deck/extensions/status/deck.status.js"></script>
+<script src="/deck/extensions/navigation/deck.navigation.js"></script>
+<script src="/deck/extensions/scale/deck.scale.js"></script>
+<script src="/deck/load_content.js"></script>
+<script type="text/javascript" src="/common/modal.js"></script>
+<script type="text/javascript" src="/deck/deck_modal.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script type="text/javascript">
+  $(".deck-after").css({"transform":"translate(400%,0,0)"});
+</script>
+
+<!--<script type="text/javascript">
+// Rotation
+jQuery.fn.rotate = function(degrees){
+    $(this).css({'transform' : 'rotate('+ degrees +'deg)'});
+    return $(this);
+};
+var deg = 0;
+$('.deck-container').dblclick(function(){
+    //alert("hello");
+    deg += 90
+    $(this).rotate(deg);
+});
+</script>-->
+</body>
+</html>
