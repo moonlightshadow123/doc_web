@@ -315,8 +315,8 @@ function renderMdContent(){
       // Mermaid js
       mermaid_js();
       // Hurify
-      hurify();
+      //hurify();
       // Colorify
-      colorify();
+      //colorify();
     });
 }
