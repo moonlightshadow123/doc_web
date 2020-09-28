@@ -5,8 +5,8 @@ class NodeObj:
 		self.name = jsonData.get("name")
 		self.nodeType = jsonData.get("nodeType")
 		self.nodeId = jsonData.get("nodeId")
-		self.extra = ""
-		self.extraUrl = ""
+		self.extra = jsonData.get("extra", "")
+		self.extraUrl = jsonData.get("extraUrl", "")
 		# child parent
 		self.parentId = jsonData.get("parentId")
 		self.parent = None
